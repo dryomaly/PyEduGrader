@@ -1,1 +1,1 @@
-
+"""PyEduGrader source package."""
