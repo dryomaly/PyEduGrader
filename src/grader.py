@@ -36,17 +36,24 @@ class StudentCodeAnalyzer:
         """Penalty if a function has no docstring."""
         if not ast.get_docstring(node):
             self.report["score"] -= 10
-            self.report["issues"].append(f"Function '{node.name}' is missing a docstring.")
+            self.report["issues"].append(
+                f"Function '{node.name}' is missing a docstring."
+            )
 
     def _check_function_length(self, node):
         """Penalty if a function is too long (>15 lines)."""
         length = node.end_lineno - node.lineno
         if length > 15:
             self.report["score"] -= 5
-            self.report["issues"].append(f"Function '{node.name}' is too long ({length} lines).")
+            self.report["issues"].append(
+                f"Function '{node.name}' is too long ({length} lines)."
+            )
 
     def _check_naming(self, node):
         """Penalty if function name is not snake_case."""
-        if not node.name.islower() and "_" not in node.name and node.name != node.name.lower():
+        is_snake = node.name.islower() or "_" in node.name
+        if not is_snake and node.name != node.name.lower():
             self.report["score"] -= 5
-            self.report["issues"].append(f"Function '{node.name}' should be in snake_case.")
+            self.report["issues"].append(
+                f"Function '{node.name}' should be in snake_case."
+            )
