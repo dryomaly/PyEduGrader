@@ -1,5 +1,9 @@
 import os
+import sys
 from src.grader import StudentCodeAnalyzer
+
+# Ensure python can find the src module
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Create a temporary dummy file for testing
 TEST_FILE = "temp_test_code.py"
@@ -7,14 +11,11 @@ TEST_FILE = "temp_test_code.py"
 
 def setup_module():
     with open(TEST_FILE, "w") as f:
-        f.write("""
-def good_function():
-    '''This is a docstring.'''
-    return True
-
-def badFunction():
-    return False
-""")
+        f.write("def good_function():\n")
+        f.write("    '''This is a docstring.'''\n")
+        f.write("    return True\n\n")
+        f.write("def badFunction():\n")
+        f.write("    return False\n")
 
 
 def teardown_module():
@@ -37,7 +38,8 @@ def test_issues_list():
     analyzer = StudentCodeAnalyzer(TEST_FILE)
     result = analyzer.analyze()
     assert len(result["issues"]) == 2
-    assert "Function 'badFunction' should be in snake_case." in result["issues"]
+    issue_text = "Function 'badFunction' should be in snake_case."
+    assert issue_text in result["issues"]
 
 
 def test_file_not_found():
