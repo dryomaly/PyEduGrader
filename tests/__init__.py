@@ -1,1 +1,1 @@
-
+"""PyEduGrader tests package."""
