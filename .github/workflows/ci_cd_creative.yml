@@ -28,7 +28,9 @@ jobs:
         run: flake8 src tests --count --max-line-length=120 --statistics
         
       - name: Run Unit Tests
-        run: pytest tests/ -v
+        run: python -m pytest tests/ -v
+        env:
+          PYTHONPATH: .
 
   generate-daily-report:
     needs: test-and-lint
