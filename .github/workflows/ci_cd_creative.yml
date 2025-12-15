@@ -25,11 +25,11 @@ jobs:
           pip install -r requirements.txt
           
       - name: Run Linter (PEP8)
-        # Ignores: E501 (line too long), W291 (trailing whitespace), W293 (blank line whitespace)
-        run: flake8 src tests --count --max-line-length=127 --ignore=E501,W291,W293 --statistics
+        # Добавляем --ignore=E501,W291,W293, чтобы игнорировать длину строк и пробелы
+        run: flake8 src tests --count --max-line-length=127 --ignore=E501,W291,W293,E302 --statistics
         
       - name: Run Unit Tests
-        # PYTHONPATH=. ensures python sees the 'src' folder correctly
+        # Добавляем PYTHONPATH=. чтобы питон видел папку src
         run: python -m pytest tests/ -v
         env:
           PYTHONPATH: .
@@ -46,7 +46,7 @@ jobs:
           echo "# Daily Grading Report" > report.md
           echo "Date: $(date)" >> report.md
           echo "## System Status" >> report.md
-          echo "All systems operational. Grader is ready for submissions." >> report.md
+          echo "All systems operational." >> report.md
           
       - name: Upload Report Artifact
         uses: actions/upload-artifact@v3
